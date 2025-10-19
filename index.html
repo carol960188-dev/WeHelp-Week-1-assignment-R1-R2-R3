@@ -115,7 +115,38 @@
 
     /* Blocks：直排一欄（全寬） */
     .blocks{grid-template-columns:1fr}
+  /* 側邊選單覆蓋整個螢幕高度 */
+  .drawer{
+    position: fixed;
+    top: 0; right: 0; bottom: 0;           /* 讓高度撐滿視窗 */
+    width: min(80vw, 320px);
+    height: 100vh;                          /* 全高保險 */
+    background: #fff;
+    border-left: 1px solid var(--muted);
+    transform: translateX(100%);
+    transition: transform .3s ease;
+    display: flex;
+    flex-direction: column;
+    padding: 16px 16px 24px;
+    z-index: 9999;
   }
+  .drawer.open{ transform: translateX(0); }
+    
+    /* 右上角 X 按鈕固定在抽屜右上角 */
+  .drawer-close{
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    width: 36px;
+    height: 36px;
+    display: grid;
+    place-items: center;
+    border: 0;
+    background: transparent;
+    cursor: pointer;
+  }
+  .drawer-close svg{ width: 22px; height: 22px; }
+}
 
   /* ============ R2：601–1200 ============ */
   @media (min-width:601px) and (max-width:1200px){
@@ -180,6 +211,12 @@
 
   <!-- R3：右側全高抽屜選單 -->
   <aside id="drawer" class="drawer" aria-hidden="true">
+    <!-- 右上角 X 按鈕 -->
+  <button class="drawer-close" aria-label="Close menu">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <path d="M6 6l12 12M18 6L6 18"/>
+    </svg>
+  </button>
     <div class="drawer-header">
       <div class="drawer-title">Menu</div>
       <button class="drawer-close" aria-label="Close menu">
@@ -260,7 +297,7 @@
       burger.setAttribute('aria-expanded','false');
     }
     burger.addEventListener('click', openDrawer);
-    closeBtn.addEventListener('click', closeDrawer);
+    closeBtn.addEventListener('click', closeDrawer);// ← 這行綁定 X 按鈕
     // 點抽屜外側關閉（可選）
     document.addEventListener('keydown', (e)=>{ if(e.key==='Escape') closeDrawer(); });
   </script>
