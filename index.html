@@ -136,9 +136,13 @@
     }
     }
     img { height: auto; }
-    /* 當螢幕寬度小於1200px 時隱藏主要內容 */
-    @media (max-width: 1200px) {
-      .fallback { display:block; }
+    /* 當螢幕寬度小於600px 時隱藏主要內容 */
+    @media (max-width: 1200px) and (min-width: 600px){
+      /* Main container寬度改90%*/
+      .container { 
+      width: 90%;
+      max-width: 90%;
+      margin: var(--gap) auto; }
       main, .bars, .blocks { display:none; }
     }
     /* 寬度 1201~1920 顯示主要內容 */
