@@ -268,20 +268,7 @@
       const active = btn.getAttribute('data-active') === 'true';// 檢查目前是否已點亮
       btn.setAttribute('data-active', String(!active));// 點擊切換亮 / 暗 狀態    });
   </script>
-  /* 星星預設樣式 */
-.star svg {
-  width: 22px;
-  height: 22px;
-  cursor: pointer;
-  stroke: #0f172a;   /* 預設灰藍色外框 */
-  fill: none;        /* 預設空心 */
-  transition: 0.3s;  /* 顏色切換有漸變效果 */
-}
 
-/* 點擊後變金色 */
-.star[data-active="true"] svg {
-  stroke: gold;
-  fill: gold;
 }
 </body>
 </html>
