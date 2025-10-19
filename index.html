@@ -26,8 +26,11 @@
     line-height:1.5; background:#fff; overflow-x:hidden;
   }
 
-  /* ====== Navbar（皆為共用） ====== */
-  .navbar{width:100%; border-bottom:1px solid var(--muted); background:#fff; position:sticky; top:0; z-index:10}
+  /* ====== Navbar（共用） ====== */
+  .navbar{
+    width:100%; border-bottom:1px solid var(--muted); background:#fff;
+    position:sticky; top:0; z-index:10;
+  }
   .nav-inner{
     display:flex; align-items:center; justify-content:space-between;
     min-height:50px; padding:0 12px; width:100%; box-sizing:border-box;
@@ -37,34 +40,37 @@
   .menu a{color:inherit; text-decoration:none}
   .menu a:hover{text-decoration:underline}
 
-  /* R3 會用到的漢堡按鈕與抽屜選單（預設隱藏） */
-  .burger{display:none; width:36px; height:36px; align-items:center; justify-content:center; border:0; background:transparent; cursor:pointer}
+  /* 漢堡預設隱藏（桌面與平板） */
+  .burger{
+    display:none; width:36px; height:36px;
+    align-items:center; justify-content:center;
+    border:0; background:transparent; cursor:pointer;
+  }
   .burger svg{width:22px; height:22px}
 
+  /* ====== 抽屜（共用） ====== */
   .drawer{
-    position:fixed; inset:0 0 0 auto; width:min(80vw, 320px); height:100vh;
-    background:#ffffff; border-left:1px solid var(--muted);
+    position:fixed; top:0; right:0; bottom:0;   /* 覆蓋整個視窗高度 */
+    width:min(80vw, 320px);
+    background:#fff; border-left:1px solid var(--muted);
     transform:translateX(100%); transition:transform .3s ease;
-    display:flex; flex-direction:column; padding:16px;
+    display:flex; flex-direction:column; padding:16px 16px 24px;
+    z-index:9999;
   }
-  .drawer.open{transform:translateX(0)}
-  .drawer-header{display:flex; align-items:center; justify-content:space-between; margin-bottom:12px}
-  .drawer-title{font-weight:700}
-  .drawer-close{width:36px; height:36px; display:grid; place-items:center; border:0; background:transparent; cursor:pointer}
-  .drawer-nav{list-style:none; padding:0; margin:0; display:flex; flex-direction:column; gap:16px}
-  .drawer-nav a{color:inherit; text-decoration:none}
+  .drawer.open{ transform:translateX(0); }
 
-  /* 抽屜層級要夠高，X 要更高，避免被內容覆蓋 */
-.drawer { z-index: 9999; }
-.drawer-close {
-  position: absolute;
-  top: 8px; right: 8px;
-  width: 36px; height: 36px;
-  display: grid; place-items: center;
-  background: transparent; border: 0;
-  cursor: pointer; z-index: 10000;
-}
-.drawer-close svg { width: 22px; height: 22px; }
+  .drawer-close{
+    position:absolute; top:8px; right:8px;
+    width:36px; height:36px; display:grid; place-items:center;
+    border:0; background:transparent; cursor:pointer; z-index:10000;
+  }
+  .drawer-close svg{ width:22px; height:22px; }
+  .drawer-nav{
+    list-style:none; padding:0; margin:40px 0 0;   /* 留距離避開 X */
+    display:flex; flex-direction:column; gap:16px;
+  }
+  .drawer-nav a{ color:inherit; text-decoration:none; }
+
   /* ====== Hero ====== */
   .hero{
     width:100%; height:var(--hero-h);
@@ -110,12 +116,11 @@
   /* ============ R3：360–600 ============ */
   @media (min-width:360px) and (max-width:600px){
     main{width:90%}
-
-    /* 導覽列：隱藏清單、改顯示漢堡；抽屜使用 */
+    /* 導覽列：隱藏清單、顯示漢堡 */
     .menu{display:none}
     .burger{display:flex}
 
-    /* Bars：直排一欄（全寬） */
+    /* Bars：直排一欄 */
     .bars{
       grid-template-columns:1fr;
       grid-template-areas:
@@ -123,41 +128,9 @@
         "bar2"
         "bar3";
     }
-
-    /* Blocks：直排一欄（全寬） */
+    /* Blocks：直排一欄 */
     .blocks{grid-template-columns:1fr}
-  /* 側邊選單覆蓋整個螢幕高度 */
-  .drawer{
-    position: fixed;
-    top: 0; right: 0; bottom: 0;           /* 讓高度撐滿視窗 */
-    width: min(80vw, 320px);
-    height: 100vh;                          /* 全高保險 */
-    background: #fff;
-    border-left: 1px solid var(--muted);
-    transform: translateX(100%);
-    transition: transform .3s ease;
-    display: flex;
-    flex-direction: column;
-    padding: 16px 16px 24px;
-    z-index: 9999;
   }
-  .drawer.open{ transform: translateX(0); }
-    
-    /* 右上角 X 按鈕固定在抽屜右上角 */
-  .drawer-close{
-    position: absolute;
-    top: 8px;
-    right: 8px;
-    width: 36px;
-    height: 36px;
-    display: grid;
-    place-items: center;
-    border: 0;
-    background: transparent;
-    cursor: pointer;
-  }
-  .drawer-close svg{ width: 22px; height: 22px; }
-}
 
   /* ============ R2：601–1200 ============ */
   @media (min-width:601px) and (max-width:1200px){
@@ -200,24 +173,32 @@
 </style>
 </head>
 <body>
-  
- 
-  <!-- R3：右側全高抽屜選單 -->
-  <aside id="drawer" class="drawer" aria-hidden="true">
-    <!-- 右上角 X 按鈕 -->
-  <button class="drawer-close" aria-label="Close menu">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-      <path d="M6 6l12 12M18 6L6 18"/>
-    </svg>
-  </button>
-    <div class="drawer-header">
-      <div class="drawer-title">Menu</div>
-      <button class="drawer-close" aria-label="Close menu">
+  <!-- Navbar -->
+  <nav class="navbar" role="navigation">
+    <div class="nav-inner">
+      <div class="brand">My Website</div>
+      <ul class="menu" aria-label="Primary">
+        <li><a href="#">Item 1</a></li>
+        <li><a href="#">Item 2</a></li>
+        <li><a href="#">Item 3</a></li>
+        <li><a href="#">Item 4</a></li>
+      </ul>
+      <!-- R3：漢堡按鈕 -->
+      <button class="burger" aria-label="Open menu" aria-controls="drawer" aria-expanded="false">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <path d="M6 6l12 12M18 6L6 18"/>
+          <path d="M4 6h16M4 12h16M4 18h16"/>
         </svg>
       </button>
     </div>
+  </nav>
+
+  <!-- R3：右側全高抽屜選單 -->
+  <aside id="drawer" class="drawer" aria-hidden="true">
+    <button class="drawer-close" aria-label="Close menu">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M6 6l12 12M18 6L6 18"/>
+      </svg>
+    </button>
     <ul class="drawer-nav">
       <li><a href="#">Item 1</a></li>
       <li><a href="#">Item 2</a></li>
@@ -235,31 +216,31 @@
     <!-- Bars -->
     <section class="bars" aria-label="Promotions">
       <article class="bar" id="bar1">
-        <img src="https://picsum.photos/seed/b1/800/600" alt="">
+        <img src="https://picsum.photos/seed/p1/800/600" alt="">
         <p class="bar-title">Promotion 1</p>
       </article>
       <article class="bar" id="bar2">
-        <img src="https://picsum.photos/seed/b1/800/600" alt="">
+        <img src="https://picsum.photos/seed/p2/800/600" alt="">
         <p class="bar-title">Promotion 2</p>
       </article>
       <article class="bar" id="bar3">
-        <img src="https://picsum.photos/seed/b1/800/600" alt="">
+        <img src="https://picsum.photos/seed/p3/800/600" alt="">
         <p class="bar-title">Promotion 3</p>
       </article>
     </section>
 
     <!-- Blocks（10 張圖片，列表） -->
     <section class="blocks" aria-label="Content blocks">
-      <div class="card"><div class="card-bg" style="background-image:url('https://picsum.photos/seed/b1/800/600');"></div><div class="star" data-active="false"><svg viewBox="0 0 24 24" fill="none" stroke="#0f172a" stroke-width="1.5"><path d="M12 17.27 18.18 21l-1.64-7.03L22 9.24l-7.19-.62L12 2 9.19 8.62 2 9.24l5.46 4.73L5.82 21z"/></svg></div><div class="caption">Title 1</div></div>
-      <div class="card"><div class="card-bg" style="background-image:url('https://picsum.photos/seed/b1/800/600');"></div><div class="star" data-active="false"><svg viewBox="0 0 24 24" fill="none" stroke="#0f172a" stroke-width="1.5"><path d="M12 17.27 18.18 21l-1.64-7.03L22 9.24l-7.19-.62L12 2 9.19 8.62 2 9.24l5.46 4.73L5.82 21z"/></svg></div><div class="caption">Title 2</div></div>
-      <div class="card"><div class="card-bg" style="background-image:url('https://picsum.photos/seed/b1/800/600');"></div><div class="star" data-active="false"><svg viewBox="0 0 24 24" fill="none" stroke="#0f172a" stroke-width="1.5"><path d="M12 17.27 18.18 21l-1.64-7.03L22 9.24l-7.19-.62L12 2 9.19 8.62 2 9.24l5.46 4.73L5.82 21z"/></svg></div><div class="caption">Title 3</div></div>
-      <div class="card"><div class="card-bg" style="background-image:url('https://picsum.photos/seed/b1/800/600');"></div><div class="star" data-active="false"><svg viewBox="0 0 24 24" fill="none" stroke="#0f172a" stroke-width="1.5"><path d="M12 17.27 18.18 21l-1.64-7.03L22 9.24l-7.19-.62L12 2 9.19 8.62 2 9.24l5.46 4.73L5.82 21z"/></svg></div><div class="caption">Title 4</div></div>
-      <div class="card"><div class="card-bg" style="background-image:url('https://picsum.photos/seed/b1/800/600');"></div><div class="star" data-active="false"><svg viewBox="0 0 24 24" fill="none" stroke="#0f172a" stroke-width="1.5"><path d="M12 17.27 18.18 21l-1.64-7.03L22 9.24l-7.19-.62L12 2 9.19 8.62 2 9.24l5.46 4.73L5.82 21z"/></svg></div><div class="caption">Title 5</div></div>
-      <div class="card"><div class="card-bg" style="background-image:url('https://picsum.photos/seed/b1/800/600');"></div><div class="star" data-active="false"><svg viewBox="0 0 24 24" fill="none" stroke="#0f172a" stroke-width="1.5"><path d="M12 17.27 18.18 21l-1.64-7.03L22 9.24l-7.19-.62L12 2 9.19 8.62 2 9.24l5.46 4.73L5.82 21z"/></svg></div><div class="caption">Title 6</div></div>
-      <div class="card"><div class="card-bg" style="background-image:url('https://picsum.photos/seed/b1/800/600');"></div><div class="star" data-active="false"><svg viewBox="0 0 24 24" fill="none" stroke="#0f172a" stroke-width="1.5"><path d="M12 17.27 18.18 21l-1.64-7.03L22 9.24l-7.19-.62L12 2 9.19 8.62 2 9.24l5.46 4.73L5.82 21z"/></svg></div><div class="caption">Title 7</div></div>
-      <div class="card"><div class="card-bg" style="background-image:url('https://picsum.photos/seed/b1/800/600');"></div><div class="star" data-active="false"><svg viewBox="0 0 24 24" fill="none" stroke="#0f172a" stroke-width="1.5"><path d="M12 17.27 18.18 21l-1.64-7.03L22 9.24l-7.19-.62L12 2 9.19 8.62 2 9.24l5.46 4.73L5.82 21z"/></svg></div><div class="caption">Title 8</div></div>
-      <div class="card"><div class="card-bg" style="background-image:url('https://picsum.photos/seed/b1/800/600');"></div><div class="star" data-active="false"><svg viewBox="0 0 24 24" fill="none" stroke="#0f172a" stroke-width="1.5"><path d="M12 17.27 18.18 21l-1.64-7.03L22 9.24l-7.19-.62L12 2 9.19 8.62 2 9.24l5.46 4.73L5.82 21z"/></svg></div><div class="caption">Title 9</div></div>
-      <div class="card"><div class="card-bg" style="background-image:url('https://picsum.photos/seed/b1/800/600');"></div><div class="star" data-active="false"><svg viewBox="0 0 24 24" fill="none" stroke="#0f172a" stroke-width="1.5"><path d="M12 17.27 18.18 21l-1.64-7.03L22 9.24l-7.19-.62L12 2 9.19 8.62 2 9.24l5.46 4.73L5.82 21z"/></svg></div><div class="caption">Title 10</div></div>
+      <div class="card"><div class="card-bg" style="background-image:url('https://picsum.photos/seed/a1/800/600');"></div><div class="star" data-active="false"><svg viewBox="0 0 24 24" fill="none" stroke="#0f172a" stroke-width="1.5"><path d="M12 17.27 18.18 21l-1.64-7.03L22 9.24l-7.19-.62L12 2 9.19 8.62 2 9.24l5.46 4.73L5.82 21z"/></svg></div><div class="caption">Title 1</div></div>
+      <div class="card"><div class="card-bg" style="background-image:url('https://picsum.photos/seed/a2/800/600');"></div><div class="star" data-active="false"><svg viewBox="0 0 24 24" fill="none" stroke="#0f172a" stroke-width="1.5"><path d="M12 17.27 18.18 21l-1.64-7.03L22 9.24l-7.19-.62L12 2 9.19 8.62 2 9.24l5.46 4.73L5.82 21z"/></svg></div><div class="caption">Title 2</div></div>
+      <div class="card"><div class="card-bg" style="background-image:url('https://picsum.photos/seed/a3/800/600');"></div><div class="star" data-active="false"><svg viewBox="0 0 24 24" fill="none" stroke="#0f172a" stroke-width="1.5"><path d="M12 17.27 18.18 21l-1.64-7.03L22 9.24l-7.19-.62L12 2 9.19 8.62 2 9.24l5.46 4.73L5.82 21z"/></svg></div><div class="caption">Title 3</div></div>
+      <div class="card"><div class="card-bg" style="background-image:url('https://picsum.photos/seed/a4/800/600');"></div><div class="star" data-active="false"><svg viewBox="0 0 24 24" fill="none" stroke="#0f172a" stroke-width="1.5"><path d="M12 17.27 18.18 21l-1.64-7.03L22 9.24l-7.19-.62L12 2 9.19 8.62 2 9.24l5.46 4.73L5.82 21z"/></svg></div><div class="caption">Title 4</div></div>
+      <div class="card"><div class="card-bg" style="background-image:url('https://picsum.photos/seed/a5/800/600');"></div><div class="star" data-active="false"><svg viewBox="0 0 24 24" fill="none" stroke="#0f172a" stroke-width="1.5"><path d="M12 17.27 18.18 21l-1.64-7.03L22 9.24l-7.19-.62L12 2 9.19 8.62 2 9.24l5.46 4.73L5.82 21z"/></svg></div><div class="caption">Title 5</div></div>
+      <div class="card"><div class="card-bg" style="background-image:url('https://picsum.photos/seed/a6/800/600');"></div><div class="star" data-active="false"><svg viewBox="0 0 24 24" fill="none" stroke="#0f172a" stroke-width="1.5"><path d="M12 17.27 18.18 21l-1.64-7.03L22 9.24l-7.19-.62L12 2 9.19 8.62 2 9.24l5.46 4.73L5.82 21z"/></svg></div><div class="caption">Title 6</div></div>
+      <div class="card"><div class="card-bg" style="background-image:url('https://picsum.photos/seed/a7/800/600');"></div><div class="star" data-active="false"><svg viewBox="0 0 24 24" fill="none" stroke="#0f172a" stroke-width="1.5"><path d="M12 17.27 18.18 21l-1.64-7.03L22 9.24l-7.19-.62L12 2 9.19 8.62 2 9.24l5.46 4.73L5.82 21z"/></svg></div><div class="caption">Title 7</div></div>
+      <div class="card"><div class="card-bg" style="background-image:url('https://picsum.photos/seed/a8/800/600');"></div><div class="star" data-active="false"><svg viewBox="0 0 24 24" fill="none" stroke="#0f172a" stroke-width="1.5"><path d="M12 17.27 18.18 21l-1.64-7.03L22 9.24l-7.19-.62L12 2 9.19 8.62 2 9.24l5.46 4.73L5.82 21z"/></svg></div><div class="caption">Title 8</div></div>
+      <div class="card"><div class="card-bg" style="background-image:url('https://picsum.photos/seed/a9/800/600');"></div><div class="star" data-active="false"><svg viewBox="0 0 24 24" fill="none" stroke="#0f172a" stroke-width="1.5"><path d="M12 17.27 18.18 21l-1.64-7.03L22 9.24l-7.19-.62L12 2 9.19 8.62 2 9.24l5.46 4.73L5.82 21z"/></svg></div><div class="caption">Title 9</div></div>
+      <div class="card"><div class="card-bg" style="background-image:url('https://picsum.photos/seed/a10/800/600');"></div><div class="star" data-active="false"><svg viewBox="0 0 24 24" fill="none" stroke="#0f172a" stroke-width="1.5"><path d="M12 17.27 18.18 21l-1.64-7.03L22 9.24l-7.19-.62L12 2 9.19 8.62 2 9.24l5.46 4.73L5.82 21z"/></svg></div><div class="caption">Title 10</div></div>
     </section>
   </main>
 
@@ -274,25 +255,33 @@
       }
     });
 
-    // R3：漢堡抽屜開關
-    const burger = document.querySelector('.burger');
+    // R3：漢堡抽屜開關（事件委派，確保點到 SVG/PATH 也命中）
     const drawer = document.getElementById('drawer');
-    const closeBtn = document.querySelector('.drawer-close');
+    const burger = document.querySelector('.burger');
 
     function openDrawer(){
       drawer.classList.add('open');
       drawer.setAttribute('aria-hidden','false');
-      burger.setAttribute('aria-expanded','true');
+      if (burger) burger.setAttribute('aria-expanded','true');
+      document.body.style.overflow = 'hidden';
     }
     function closeDrawer(){
       drawer.classList.remove('open');
       drawer.setAttribute('aria-hidden','true');
-      burger.setAttribute('aria-expanded','false');
+      if (burger) burger.setAttribute('aria-expanded','false');
+      document.body.style.overflow = '';
     }
-    burger.addEventListener('click', openDrawer);
-    closeBtn.addEventListener('click', closeDrawer);// ← 這行綁定 X 按鈕
-    // 點抽屜外側關閉（可選）
-    document.addEventListener('keydown', (e)=>{ if(e.key==='Escape') closeDrawer(); });
+
+    document.addEventListener('click', (e) => {
+      if (e.target.closest('.burger')) { e.preventDefault(); openDrawer(); return; }
+      if (e.target.closest('.drawer-close')) { e.preventDefault(); closeDrawer(); return; }
+      // 抽屜開啟時，點抽屜外部也關閉（可選）
+      if (drawer.classList.contains('open') && !e.target.closest('#drawer')) {
+        closeDrawer();
+      }
+    });
+
+    document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeDrawer(); });
   </script>
 </body>
 </html>
