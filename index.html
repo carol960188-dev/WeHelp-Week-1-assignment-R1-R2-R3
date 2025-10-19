@@ -54,6 +54,17 @@
   .drawer-nav{list-style:none; padding:0; margin:0; display:flex; flex-direction:column; gap:16px}
   .drawer-nav a{color:inherit; text-decoration:none}
 
+  /* 抽屜層級要夠高，X 要更高，避免被內容覆蓋 */
+.drawer { z-index: 9999; }
+.drawer-close {
+  position: absolute;
+  top: 8px; right: 8px;
+  width: 36px; height: 36px;
+  display: grid; place-items: center;
+  background: transparent; border: 0;
+  cursor: pointer; z-index: 10000;
+}
+.drawer-close svg { width: 22px; height: 22px; }
   /* ====== Hero ====== */
   .hero{
     width:100%; height:var(--hero-h);
