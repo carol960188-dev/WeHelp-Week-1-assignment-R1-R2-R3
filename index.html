@@ -26,7 +26,7 @@
     line-height:1.5; background:#fff; overflow-x:hidden;
   }
 
-  /* ====== Navbar（共用） ====== */
+  /* ====== Navbar（皆為共用） ====== */
   .navbar{width:100%; border-bottom:1px solid var(--muted); background:#fff; position:sticky; top:0; z-index:10}
   .nav-inner{
     display:flex; align-items:center; justify-content:space-between;
@@ -37,7 +37,7 @@
   .menu a{color:inherit; text-decoration:none}
   .menu a:hover{text-decoration:underline}
 
-  /* R3 需要的漢堡按鈕與抽屜選單（預設隱藏） */
+  /* R3 會用到的漢堡按鈕與抽屜選單（預設隱藏） */
   .burger{display:none; width:36px; height:36px; align-items:center; justify-content:center; border:0; background:transparent; cursor:pointer}
   .burger svg{width:22px; height:22px}
 
@@ -76,7 +76,7 @@
   .bar-title{margin:0; font-size:.95rem}
   #bar1{grid-area:bar1} #bar2{grid-area:bar2} #bar3{grid-area:bar3}
 
-  /* Blocks（10 張扁平 .card） */
+  /* Blocks（10 張 .card） */
   .blocks{display:grid; gap:var(--gap)}
   .card{
     position:relative; height:var(--block-h);
@@ -218,7 +218,7 @@
       </article>
     </section>
 
-    <!-- Blocks（10 張卡片，扁平列表） -->
+    <!-- Blocks（10 張圖片，列表） -->
     <section class="blocks" aria-label="Content blocks">
       <div class="card"><div class="card-bg" style="background-image:url('https://picsum.photos/seed/b1/800/600');"></div><div class="star" data-active="false"><svg viewBox="0 0 24 24" fill="none" stroke="#0f172a" stroke-width="1.5"><path d="M12 17.27 18.18 21l-1.64-7.03L22 9.24l-7.19-.62L12 2 9.19 8.62 2 9.24l5.46 4.73L5.82 21z"/></svg></div><div class="caption">Title 1</div></div>
       <div class="card"><div class="card-bg" style="background-image:url('https://picsum.photos/seed/b1/800/600');"></div><div class="star" data-active="false"><svg viewBox="0 0 24 24" fill="none" stroke="#0f172a" stroke-width="1.5"><path d="M12 17.27 18.18 21l-1.64-7.03L22 9.24l-7.19-.62L12 2 9.19 8.62 2 9.24l5.46 4.73L5.82 21z"/></svg></div><div class="caption">Title 2</div></div>
