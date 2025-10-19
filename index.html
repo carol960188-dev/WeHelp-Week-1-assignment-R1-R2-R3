@@ -58,57 +58,56 @@
     .hero h1 { margin: 0; font-size: 2em; font-weight: 700; }/* Hero 文字為兩倍字體、粗體 */
 /* 主內容區塊（bars + blocks） */
     main { max-width: var(--container-w)/* 固定 1200px 寬 */; margin: 0 auto/* 水平置中 */; padding: var(--gap) 0; /* 上下內距 20px */box-sizing: border-box; }
-  /* 三個 bar 的容器 */
-    .bars {
-      display: grid;/* 使用 Grid 排版 */
-      grid-template-columns: 2fr 1fr; /* 上面一欄、下面兩欄比例 */
-      grid-template-areas:
-        "bar1 bar1"/* 第一列：bar1 佔整行 */
-        "bar2 bar3";/* 第二列：bar2 + bar3 */
-      gap: var(--gap);/* 間距 20px */
-      margin-bottom: var(--gap);
-    }
-     /* 每個 bar 的樣式 */
-    .bar {
-      display: flex;/* 使用 Flex 排版 */
-      align-items: center;/* 內容垂直置中 */
-      gap: var(--gap);/* 文字與圖片間距 */
-      height: var(--bar-h);/* 高度 50px */
-      border: 1px solid var(--muted);/* 灰色邊框 */
-      background: #e9f2f8;/* 淡藍底 */
-      border-radius: 0;
-      overflow: hidden;/* 超出隱藏 */
-    }
-    .bar img {
-      width: 80px;/* 固定寬度 80px */
-      height: 100%;/* 高度跟層相同 */
-      object-fit: cover;/* 保持比例裁切 */
-      display: block;
-      flex: 0 0 80px;
-    }
-    .bar-title { font-size: 0.9rem; margin: 0; }/* 文字樣式 */
+  /* ===== RWD：600px < 螢幕寬度 <= 1200px ===== */
+@media (max-width: 1200px) and (min-width: 600px) {
 
-    /* 對應 grid 區域名稱 */
-    #bar1 { grid-area: bar1; }
-    #bar2 { grid-area: bar2; }
-    #bar3 { grid-area: bar3; }
- /* 下方 content blocks 容器 */
-    .blocks {
-      display: grid;
-      grid-template-columns: 2fr 1fr 1fr 1fr 1fr;/* 第一欄為兩倍寬 */
-      gap: var(--gap);/* 間距 20px */
-    }
-    /* 每一欄（有兩個 card） */
-    .block-col { display: grid; gap: var(--gap); grid-auto-rows: var(--block-h); }/* 每個 card 固定高度 180px */
-    /* 單一卡片外框 */
-    .card {
-      position: relative;
-      border: 1px solid var(--muted);
-      background: #fff;
-      border-radius: 0;
-      overflow: hidden;
-      isolation: isolate;
-    }
+  /* Main container 寬度改為 90% */
+  .container {
+    width: 90%;
+    max-width: 90%;
+    margin: var(--gap) auto;
+  }
+
+  /* Bars 區塊改為兩列：
+     第一列兩欄 (各 50%)，
+     第二列一欄 (100%) */
+  .bars {
+    grid-template-columns: 1fr 1fr;   /* 第一列兩欄 */
+    gap: var(--gap);
+  }
+
+  .bars-row2 {
+    grid-template-columns: 1fr;       /* 第二列單欄 */
+    gap: var(--gap);
+  }
+
+  /* 每個 bar 高度 50px，圖片 80×50 */
+  .bar {
+    height: 50px;
+    grid-template-columns: 80px 1fr;
+  }
+  .bar .thumb img {
+    width: 80px;
+    height: 50px;
+    object-fit: cover;
+  }
+
+  /* Blocks：改為四欄 (25% 每欄) */
+  .blocks {
+    grid-template-columns: repeat(4, 1fr);
+  }
+
+  /* wide 不再雙寬 */
+  .block.wide {
+    grid-column: span 1;
+  }
+
+  /* 最後兩個 block 佔 50% 寬（每個跨兩欄） */
+  .block:nth-last-child(-n+2) {
+    grid-column: span 2;
+  }
+}
+
     /* 卡片背景圖片（鋪滿） */
     .card-bg { position:absolute; 
               inset:0; /* top/right/bottom/left 全 0 */
