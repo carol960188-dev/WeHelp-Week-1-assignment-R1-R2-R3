@@ -199,27 +199,70 @@
   }
 </style>
 </head>
-<body>
-  <!-- Navbar -->
-  <nav class="navbar" role="navigation">
-    <div class="nav-inner">
-      <div class="brand">My Website</div>
-      <ul class="menu" aria-label="Primary">
-        <li><a href="#">Item 1</a></li>
-        <li><a href="#">Item 2</a></li>
-        <li><a href="#">Item 3</a></li>
-        <li><a href="#">Item 4</a></li>
-      </ul>
-      <!-- R3：漢堡按鈕 -->
-      <button class="burger" aria-label="Open menu" aria-controls="drawer" aria-expanded="false">
-        <!-- 三條線圖示 -->
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <path d="M4 6h16M4 12h16M4 18h16"/>
-        </svg>
-      </button>
-    </div>
-  </nav>
+<body>/* ====== Navbar（共用） ====== */
+.navbar{
+  width:100%;
+  border-bottom:1px solid var(--muted);
+  background:#fff;
+  position:sticky; top:0; z-index:10;
+}
+.nav-inner{
+  display:flex; align-items:center; justify-content:space-between;
+  min-height:50px; padding:0 12px; width:100%; box-sizing:border-box;
+}
+.brand{font-weight:700}
+.menu{display:flex; gap:20px; list-style:none; margin:0; padding:0}
+.menu a{color:inherit; text-decoration:none}
+.menu a:hover{text-decoration:underline}
 
+/* 漢堡預設隱藏（桌面與平板） */
+.burger{
+  display:none; width:36px; height:36px;
+  align-items:center; justify-content:center;
+  border:0; background:transparent; cursor:pointer;
+}
+.burger svg{width:22px; height:22px}
+
+/* ====== 抽屜（共用） ====== */
+.drawer{
+  position:fixed;
+  top:0; right:0; bottom:0;          /* 覆蓋整個視窗高度 */
+  width:min(80vw, 320px);
+  /* height:100vh;  // 可省略，已由 top/bottom 0 撐滿 */
+  background:#fff;
+  border-left:1px solid var(--muted);
+  transform:translateX(100%);        /* 初始在畫面外 */
+  transition:transform .3s ease;
+  display:flex; flex-direction:column;
+  padding:16px;
+  z-index:9999;
+}
+.drawer.open{ transform:translateX(0); }
+.drawer-header{ display:flex; align-items:center; justify-content:space-between; margin-bottom:12px; }
+.drawer-title{ font-weight:700; }
+
+/* X 按鈕（合併為單一宣告） */
+.drawer-close{
+  position:absolute; top:8px; right:8px;
+  width:36px; height:36px;
+  display:grid; place-items:center;
+  border:0; background:transparent;
+  cursor:pointer; z-index:10000;
+}
+.drawer-close svg{ width:22px; height:22px; }
+
+.drawer-nav{
+  list-style:none; padding:0; margin:40px 0 0;   /* 留點距離避開 X */
+  display:flex; flex-direction:column; gap:16px;
+}
+.drawer-nav a{ color:inherit; text-decoration:none; }
+
+/* ====== R3：360–600 顯示漢堡、隱藏桌面選單 ====== */
+@media (min-width:360px) and (max-width:600px){
+  .menu{ display:none; }
+  .burger{ display:flex; }  /* 這行很關鍵！ */
+}
+ 
   <!-- R3：右側全高抽屜選單 -->
   <aside id="drawer" class="drawer" aria-hidden="true">
     <!-- 右上角 X 按鈕 -->
