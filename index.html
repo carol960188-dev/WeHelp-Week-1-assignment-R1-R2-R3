@@ -1,1 +1,288 @@
+<!DOCTYPE html> <!-- 這是一份 HTML5 文件 -->
+<html lang="en"><!-- 語言為英文（中文 zh-TW） -->
+<head>
+  <meta charset="UTF-8" /><!-- 設定網頁編碼 -->
+  <meta name="viewport" content="width=device-width, initial-scale=1" /><!-- 讓頁面能自適應裝置寬度（RWD） -->
+  <title>WeHelp week 1 Assignment (requirement 1)</title><!-- 頁面標題（瀏覽器標籤上） -->
+  <style>
+    /* ---------- CSS 區域開始 ---------- */
+
+    /* 定義全域變數*/
+    :root {
+      --base: 20px;
+      --gap: 20px;
+      --container-w:600px;
+      --bar-h: 50px;
+      --hero-h: 250px;
+      --block-h: 180px;
+      --light light-blue: #d6eaf5;
+      --ink: #111827;
+      --muted: #cbd5e1;
+      --overlay: rgba(0,0,0,0.45);
+    }
+    html { font-size: var(--base); }/* 設定基準字體大小為 20px */
+    body {
+      margin: 0;/* 移除預設外距 */
+      color: var(--ink);/* 頁面文字顏色 */
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;/* 字體設定 */
+      line-height: 1.5;/* 行距 */
+      background: #fff;/* 背景白色 */
+      overflow-x: hidden;/* 隱藏橫向滾動條（避免超出畫面寬度） */
+    }
+    /* 導覽列 navbar */
+    .navbar { width: 100%/* 滿版寬度 */; border-bottom: 1px solid var(--muted)/* 底部灰線 */; background: #fff;/* 背景白色 */ }
+    .nav-inner {
+      margin: 0 auto;/* 置中 */
+      display: flex;/* 使用 Flex 排版 */
+      align-items: center; /* 垂直置中 */
+      justify-content: space-between;/* 左右兩端對齊 */
+      min-height: 50px;/* 最小高度 */
+      width: 100%;
+      box-sizing: border-box;
+      padding: 0;
+    }
+    .brand { font-weight: 700; font-size: 1rem; }/* 左邊網站標題字體粗體 */
+    .menu { display:flex; gap: 20px; list-style:none; margin:0; padding:0; }/* 右側選單橫向排列 */
+    .menu a { color: inherit; text-decoration: none; }/* 超連結文字顏色同本體，移除底線 */
+    .menu a:hover { text-decoration: underline; }/* 滑鼠移上加底線 */
+/* Hero 區（淺藍背景 + 歡迎文字） */
+    .hero {
+      width: 100%;
+      background: #d9ecf6;* 淺藍背景 */
+      display: grid;/* 使用 Grid 讓內容可置中 */
+      place-items: center;/* 水平 + 垂直置中 */
+      height: var(--hero-h);/* 高度 250px */
+      text-align: center;/* 文字置中 */
+      border-bottom: 1px solid var(--muted);/* 底部分隔線 */
+    }
+    .hero h1 { margin: 0; font-size: 2em; font-weight: 700; }/* Hero 文字為兩倍字體、粗體 */
+/* 主內容區塊（bars + blocks） */
+    main { max-width: var(--container-w)/* 固定 1200px 寬 */; margin: 0 auto/* 水平置中 */; padding: var(--gap) 0; /* 上下內距 20px */box-sizing: border-box; }
+  /* 三個 bar 的容器 */
+    .bars {
+      display: grid;/* 使用 Grid 排版 */
+      grid-template-columns: 2fr 1fr; /* 上面一欄、下面兩欄比例 */
+      grid-template-areas:
+        "bar1 bar1"/* 第一列：bar1 佔整行 */
+        "bar2 bar3";/* 第二列：bar2 + bar3 */
+      gap: var(--gap);/* 間距 20px */
+      margin-bottom: var(--gap);
+    }
+     /* 每個 bar 的樣式 */
+    .bar {
+      display: flex;/* 使用 Flex 排版 */
+      align-items: center;/* 內容垂直置中 */
+      gap: var(--gap);/* 文字與圖片間距 */
+      height: var(--bar-h);/* 高度 50px */
+      border: 1px solid var(--muted);/* 灰色邊框 */
+      background: #e9f2f8;/* 淡藍底 */
+      border-radius: 0;
+      overflow: hidden;/* 超出隱藏 */
+    }
+    .bar img {
+      width: 80px;/* 固定寬度 80px */
+      height: 100%;/* 高度跟層相同 */
+      object-fit: cover;/* 保持比例裁切 */
+      display: block;
+      flex: 0 0 80px;
+    }
+    .bar-title { font-size: 0.9rem; margin: 0; }/* 文字樣式 */
+
+    /* 對應 grid 區域名稱 */
+    #bar1 { grid-area: bar1; }
+    #bar2 { grid-area: bar2; }
+    #bar3 { grid-area: bar3; }
+ /* 下方 content blocks 容器 */
+    .blocks {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr 1fr 1fr;/* 第一欄為兩倍寬 */
+      gap: var(--gap);/* 間距 20px */
+    }
+    /* 每一欄（有兩個 card） */
+    .block-col { display: grid; gap: var(--gap); grid-auto-rows: var(--block-h); }/* 每個 card 固定高度 180px */
+    /* 單一卡片外框 */
+    .card {
+      position: relative;
+      border: 1px solid var(--muted);
+      background: #fff;
+      border-radius: 0;
+      overflow: hidden;
+      isolation: isolate;
+    }
+    /* 卡片背景圖片（鋪滿） */
+    .card-bg { position:absolute; 
+              inset:0; /* top/right/bottom/left 全 0 */
+              background-size: cover;/* 圖片自動填滿、保持比例 */
+              background-position: center; /* 置中顯示 */}
+    /* 右上角的星星圖示 */
+    .star {
+      position: absolute; top: 0; right: 0;
+      width: 22px; height: 22px;
+      display: grid; place-items: center;
+      background: rgba(255,255,255,0.8);
+      z-index: 2;
+      user-select: none;
+    }
+    .star svg { width: 18px; height: 18px; }/* 星星圖示大小 */
+    /* 底部文字條 */
+    .caption {
+      position: absolute; left:0; right:0; bottom:0;
+      height: 30px;
+      background: var(--overlay);/* 半透明黑底 */
+      color: #fff;/* 白色文字 */
+      display: flex; align-items: center; justify-content: center;/* 文字水平+垂直置中 */
+      font-size: .9rem; font-weight: 600;
+      white-space: nowrap; text-overflow: ellipsis; overflow: hidden;/* 超出顯示省略號 */
+    }
+    }
+    img { height: auto; }
+    /* 當螢幕寬度小於1200px 時隱藏主要內容 */
+    @media (max-width: 1200px) {
+      .fallback { display:block; }
+      main, .bars, .blocks { display:none; }
+    }
+    /* 寬度 1201~1920 顯示主要內容 */
+    @media (min-width: 1201px) and (max-width: 1920px) { .fallback { display:none; } }
+    /* ---------- CSS 結束 ---------- */
+    /* 當星星被點擊後加上 active 屬性時，改變顏色 */
+.star[data-active="true"] svg {
+  stroke: gold;        /* 星星外框變金色 */
+  fill: gold;          /* 星星內部填滿金色 */
+}
+  </style>
+</head>
+<body>
+  <!-- 導覽列開始 -->
+  <nav class="navbar">
+    <div class="nav-inner">
+      <div class="brand">My Website</div><!-- 左邊網站名稱 -->
+      <ul class="menu"><!-- 右側導覽選單 -->
+        <li><a href="#">Item 1</a></li>
+        <li><a href="#">Item 2</a></li>
+        <li><a href="#">Item 3</a></li>
+        <li><a href="#">Item 4</a></li>
+      </ul>
+    </div>
+  </nav>
+<!-- 導覽列結束 -->
+  <!-- Hero 區（淺藍背景） -->
+  <header class="hero"><h1>Welcome to MyHome</h1></header>
+<!-- Hero 區（淺藍背景） -->
+  <p class="fallback" style="text-align:center; padding: 6px; margin: 0; background:#fff0f0; border-bottom:1px solid #f8caca;">
+    This layout is designed for widths between 601px and 1200px. Enlarge your window to preview it.
+  </p>
+ <!-- 主內容 -->
+  <main>
+     <!-- 三個 bar 區 -->
+    <section class="bars">
+      <article class="bar" id="bar1">
+        <img src="https://picsum.photos/seed/b1/800/600" alt="Promo 1"><!-- 左邊圖片 -->
+        <p class="bar-title">Promotion 1</p><!-- 右側文字 -->
+      </article>
+
+      <article class="bar" id="bar2">
+        <img src="https://picsum.photos/seed/b1/800/600" alt="Promo 2">
+        <p class="bar-title">Promotion 2</p>
+      </article>
+
+      <article class="bar" id="bar3">
+        <img src="https://picsum.photos/seed/b1/800/600" alt="Promo 3">
+        <p class="bar-title">Promotion 3</p>
+      </article>
+    </section>
+<!-- 下方十個 content blocks -->
+    <section class="blocks">
+       <!-- 每一欄都有兩張卡片 -->
+      <div class="block-col">
+        <article class="card">
+          <div class="card-bg" style="background-image:url('https://picsum.photos/seed/b1/800/600');"></div>
+          <div class="star" data-active="false">
+            <!-- 星星 SVG -->
+            <svg viewBox="0 0 24 24" fill="none" stroke="#0f172a" stroke-width="1.5"><path d="M12 17.27 18.18 21l-1.64-7.03L22 9.24l-7.19-.62L12 2 9.19 8.62 2 9.24l5.46 4.73L5.82 21z"/></svg>
+          </div>
+          <div class="caption">Title 1</div><!-- 底部文字 -->
+        </article>
+        <article class="card">
+          <div class="card-bg" style="background-image:url('https://picsum.photos/seed/b1/800/600');"></div>
+          <div class="star">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#0f172a" stroke-width="1.5"><path d="M12 17.27 18.18 21l-1.64-7.03L22 9.24l-7.19-.62L12 2 9.19 8.62 2 9.24l5.46 4.73L5.82 21z"/></svg>
+          </div>
+          <div class="caption">Title 6</div>
+        </article>
+      </div>
+      <div class="block-col">
+        <article class="card">
+          <div class="card-bg" style="background-image:url('https://picsum.photos/seed/b1/800/600');"></div>
+          <div class="star"><svg viewBox="0 0 24 24" fill="none" stroke="#0f172a" stroke-width="1.5"><path d="M12 17.27 18.18 21l-1.64-7.03L22 9.24l-7.19-.62L12 2 9.19 8.62 2 9.24l5.46 4.73L5.82 21z"/></svg></div>
+          <div class="caption">Title 2</div>
+        </article>
+        <article class="card">
+          <div class="card-bg" style="background-image:url('https://picsum.photos/seed/b1/800/600');"></div>
+          <div class="star"><svg viewBox="0 0 24 24" fill="none" stroke="#0f172a" stroke-width="1.5"><path d="M12 17.27 18.18 21l-1.64-7.03L22 9.24l-7.19-.62L12 2 9.19 8.62 2 9.24l5.46 4.73L5.82 21z"/></svg></div>
+          <div class="caption">Title 7</div>
+        </article>
+      </div>
+      <div class="block-col">
+        <article class="card">
+          <div class="card-bg" style="background-image:url('https://picsum.photos/seed/b1/800/600');"></div>
+          <div class="star"><svg viewBox="0 0 24 24" fill="none" stroke="#0f172a" stroke-width="1.5"><path d="M12 17.27 18.18 21l-1.64-7.03L22 9.24l-7.19-.62L12 2 9.19 8.62 2 9.24l5.46 4.73L5.82 21z"/></svg></div>
+          <div class="caption">Title 3</div>
+        </article>
+        <article class="card">
+          <div class="card-bg" style="background-image:url('https://picsum.photos/seed/b1/800/600');"></div>
+          <div class="star"><svg viewBox="0 0 24 24" fill="none" stroke="#0f172a" stroke-width="1.5"><path d="M12 17.27 18.18 21l-1.64-7.03L22 9.24l-7.19-.62L12 2 9.19 8.62 2 9.24l5.46 4.73L5.82 21z"/></svg></div>
+          <div class="caption">Title 8</div>
+        </article>
+      </div>
+      <div class="block-col">
+        <article class="card">
+          <div class="card-bg" style="background-image:url('https://picsum.photos/seed/b1/800/600');"></div>
+          <div class="star"><svg viewBox="0 0 24 24" fill="none" stroke="#0f172a" stroke-width="1.5"><path d="M12 17.27 18.18 21l-1.64-7.03L22 9.24l-7.19-.62L12 2 9.19 8.62 2 9.24l5.46 4.73L5.82 21z"/></svg></div>
+          <div class="caption">Title 4</div>
+        </article>
+        <article class="card">
+          <div class="card-bg" style="background-image:url('https://picsum.photos/seed/b1/800/600');"></div>
+          <div class="star"><svg viewBox="0 0 24 24" fill="none" stroke="#0f172a" stroke-width="1.5"><path d="M12 17.27 18.18 21l-1.64-7.03L22 9.24l-7.19-.62L12 2 9.19 8.62 2 9.24l5.46 4.73L5.82 21z"/></svg></div>
+          <div class="caption">Title 9</div>
+        </article>
+      </div>
+      <div class="block-col">
+        <article class="card">
+          <div class="card-bg" style="background-image:url('https://picsum.photos/seed/b1/800/600');"></div>
+          <div class="star"><svg viewBox="0 0 24 24" fill="none" stroke="#0f172a" stroke-width="1.5"><path d="M12 17.27 18.18 21l-1.64-7.03L22 9.24l-7.19-.62L12 2 9.19 8.62 2 9.24l5.46 4.73L5.82 21z"/></svg></div>
+          <div class="caption">Title 5</div>
+        </article>
+        <article class="card">
+          <div class="card-bg" style="background-image:url('https://picsum.photos/seed/b1/800/600');"></div>
+          <div class="star"><svg viewBox="0 0 24 24" fill="none" stroke="#0f172a" stroke-width="1.5"><path d="M12 17.27 18.18 21l-1.64-7.03L22 9.24l-7.19-.62L12 2 9.19 8.62 2 9.24l5.46 4.73L5.82 21z"/></svg></div>
+          <div class="caption">Title 10</div>
+        </article>
+      </div>
+    </section>
+  </main>
+<!-- JavaScript：控制星星點擊事件 -->
+  <script>
+    document.addEventListener('click', (e) => {
+      const btn = e.target.closest('.star');// 檢查使用者是否點到星星區域      
+      if (!btn) return;
+      const active = btn.getAttribute('data-active') === 'true';// 檢查目前是否已點亮
+      btn.setAttribute('data-active', String(!active));// 點擊切換亮 / 暗 狀態    });
+  </script>
+  /* 星星預設樣式 */
+.star svg {
+  width: 22px;
+  height: 22px;
+  cursor: pointer;
+  stroke: #0f172a;   /* 預設灰藍色外框 */
+  fill: none;        /* 預設空心 */
+  transition: 0.3s;  /* 顏色切換有漸變效果 */
+}
+
+/* 點擊後變金色 */
+.star[data-active="true"] svg {
+  stroke: gold;
+  fill: gold;
+}
+</body>
+</html>
 
